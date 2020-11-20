@@ -1,4 +1,5 @@
 // 选择排序
+// 每次循环找出最大数位置，和末位交换
 
 function selectionSort(arr){
     var lens = arr.length;

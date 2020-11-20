@@ -1,4 +1,5 @@
 // 归并排序
+// 不断拆两半，查到单个为止，开始拉链对比合并
 
 function map(arr){
     var lens = arr.length;

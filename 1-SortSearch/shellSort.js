@@ -1,4 +1,5 @@
 // 谢尔排序
+// 按间隔分为多个列表分别排序，再不断缩小间隔
 
 function shellSort(arr,optimize){
     if(optimize){

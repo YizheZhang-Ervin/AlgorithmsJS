@@ -1,4 +1,5 @@
 // 插入排序
+// 在前部维护一个已排序的列表，合适位置插入，使列表不断扩大
 
 function insertionSort(arr){
     var lens = arr.length;

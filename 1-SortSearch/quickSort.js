@@ -1,4 +1,6 @@
 // 快速排序
+//按中值分两半，两指针左指针比中值大的和右指针比中值小的交换，最后再中值和右指针互换
+
 function quickSort(arr,left,right){
     if(left<right){
         let pivotIdx = partition(arr,left,right);

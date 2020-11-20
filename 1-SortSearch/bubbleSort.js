@@ -1,4 +1,5 @@
 // 冒泡排序
+// 每次循环，大的往后排
 
 function bubbleSort(arr){
     var lens = arr.length;
