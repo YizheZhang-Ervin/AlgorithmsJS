@@ -13,15 +13,15 @@ function seqSearch(arr,target){
     }
 }
 
-// 二分查找
+// 二分查找O(logn)
 
 function binarySearch(arr,target){
     var lens = arr.length,
     left = 0,
     right = lens-1;
     while(left<=right){
-        // 
-        mid = parseInt((left+right)/2);
+        // 向下取整
+        mid = Math.floor((left+right)/2);
         if(target==arr[mid]){
             return mid;
         }else if(target>arr[mid]){
