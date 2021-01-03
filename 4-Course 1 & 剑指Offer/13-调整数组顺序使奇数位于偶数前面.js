@@ -26,4 +26,4 @@ function reOrderArray(array) {
     return array
 }
 
-console.log(reOrderArray([1, 2, 3, 4, 5]))
+console.log(reOrderArray([1, 2, 3, 4, 5]));
