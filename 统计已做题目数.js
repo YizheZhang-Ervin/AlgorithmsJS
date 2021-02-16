@@ -1,4 +1,4 @@
-// Leetcode题目数量统计
+// 6-Leetcode题目数量统计
 
 let leetcodeProblems = [1,2,3,4,10,
     20,21,23,25,28,

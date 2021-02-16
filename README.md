@@ -1,5 +1,5 @@
 # JSExercise  
-1. 前端算法(CSS实现/JS内部实现/JS控制HTML实现/JS库实现)  
+1. 前端工具库  
 2. 排序查找   
 3. 常见算法  
 4. 剑指offer  
