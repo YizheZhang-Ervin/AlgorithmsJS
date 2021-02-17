@@ -35,8 +35,38 @@ function useFib2(idx){
     return rst;
 }
 
+function fib3(n){
+    if(n<=1) return n;
+    let arr = [0,1];
+    // 要构建的总项数(项是0~n-1共n-1-0+1项，已创建两项所以是n-1-0+1-2)
+    let i = n - 2;
+    while(i>0){
+        let a = arr[arr.length-2],
+        b = arr[arr.length-1];
+        arr.push(a+b);
+        i--;
+    }
+    return arr[arr.length-1];
+}
+
+function fib4(count){
+    function fn(count,curr=0,next=1){
+        if(count==0){
+            return curr;
+        }else{
+            return fn(count-1,next,curr+next);
+        }
+    }
+    // 要第n个，就加n-1次
+    return fn(count-1);
+}
+
 var idx001 = 20;
 var rst1 = fib(idx001)
 var rst2 = useFib2(idx001)
+var rst3 = fib3(idx001);
+var rst4 = fib4(idx001);
 console.log(rst1);
 console.log(rst2);
+console.log(rst3);
+console.log(rst4);

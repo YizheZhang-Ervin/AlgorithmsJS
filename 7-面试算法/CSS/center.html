@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./center.css">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <section class="s1">
+            <div class="box1 box">111</div>
+        </section>
+
+        <section class="s2">
+            <div class="box2 box">222</div>
+        </section>
+
+        <section class="s3">
+            <div class="box3 box">333</div>
+        </section>
+
+        <section class="s4">
+            <div class="box">444</div>
+        </section>
+
+        <section id="s5">
+            <div id="box5" class="box">555</div>
+        </section>
+        
+        <section class="s6">
+            <div class="box6 box">666</div>
+        </section>
+
+        <script>
+            let box = document.getElementById("box5");
+            let s5 = document.getElementById("s5"),
+                winW = s5.clientWidth,
+                winH = s5.clientHeight,
+                boxW = box.offsetWidth,
+                boxH = box.offsetHeight;
+            box.style.position = "absolute";
+            box.style.left = (winW-boxW)/2 +"px";
+            box.style.top = (winH-boxH)/2 +"px";
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,127 @@
+*{
+    margin: 0;
+}
+
+/* 圣杯 */
+.container{
+    height:100vh;
+    padding:0 200px;
+}
+
+.left,.right,.center{
+    float: left;
+}
+
+.left,.right{
+    width: 200px;
+    min-height: 100vh;
+    background: navy;
+}
+
+.left{
+    /* 回上一行 */
+    margin-left: -100%;
+    position: relative;
+    /* 左贴边 */
+    left: -200px;
+}
+
+.right{
+    margin-right: -200px;
+}
+
+.center{
+    width: 100%;
+    min-height: 100vh;
+    background: maroon;
+}
+
+/* 双飞翼 */
+.doublefly{
+    height: 100vh;
+    width: 100vw;
+}
+
+.container2,.left2,.right2{
+    float: left;
+}
+
+.container2{
+    width: 100%;
+}
+
+.center2{
+    margin: 0 200px;
+    min-height:100vh;
+    background: navy;
+}
+
+.left2,.right2{
+    width: 200px;
+    min-height: 100vh;
+    background: maroon;
+}
+
+.left2{
+    margin-left: -100%;
+}
+
+.right2{
+    margin-left: -200px;
+}
+
+/* CALC */
+.center3{
+    width: calc(100%-400px);
+    min-height: 100vh;
+    background: forestgreen;
+}
+
+/* flex */
+.container4{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.left4,.right4{
+    /* 放大 缩小 占空间 */
+    flex:0 0 200px;
+    height: 100vh;
+    background: gold;
+}
+
+.center4{
+    /* 无具体大小 */
+    flex: 1;
+    min-height: 100vh;
+    background: maroon;
+}
+
+/* 定位 */
+.container5{
+    position: relative;
+    height: 100%;
+}
+
+.left5,.right5{
+    position: absolute;
+    top:0;
+    width: 200px;
+    min-height: 100vh;
+    background:lightblue;
+}
+
+.left5{
+    left:0;
+}
+
+.right5{
+    right:0;
+}
+
+.center5{
+    margin:0 200px;
+    min-height: 100vh;
+    background: purple;
+}

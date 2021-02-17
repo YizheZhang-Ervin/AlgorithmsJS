@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+}
+
+.box{
+    background:navy;
+    color:white;
+    text-align: center;
+    line-height: 100px;
+    width: 200px;
+    height:100px;
+}
+
+/* 方法1:要知box宽高 */
+.s1{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background: black;
+}
+.box1{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    margin-top: -50px;
+    margin-left: -100px;
+}
+
+/* 方法2:box要设置width和height */
+.s2{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background: green;
+}
+.box2{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin:auto;
+}
+
+/* 方法3:box不用设置width和height */
+.s3{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background: gold;
+}
+.box3{
+    position: absolute;
+    top:50%;
+    left:50%;
+    /* 相对自有宽度左移50%，自由高度上移50% */
+    transform: translate(-50%,-50%);
+}
+
+/* 方法4:flex */
+.s4{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: maroon;
+}
+
+/* 方法5:JS见HTML */
+#s5{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background: orange;
+}
+
+/* 方法6: tablecell+inlineblock */
+.s6{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    background: lightblue;
+}
+
+.box6{
+    display: inline-block;
+}

@@ -73,9 +73,27 @@ function quickSort2(arr){
     return rst;
 }
 
+function quickSort3(arr){
+    if(arr.length<=1){
+        return arr;
+    }
+    let middleIndex = Math.floor(arr.length/2);
+    let middleValue = arr.splice(middleIndex,1)[0];
+    let arrLeft = [],
+        arrRight = [];
+    for(let i=0;i<arr.length;i++){
+        let item = arr[i];
+        item<middleValue?arrLeft.push(item):arrRight.push(item);
+    }
+    return quick(arrLeft).concat(middleValue,quick(arrRight));
+}
+
 var arr001 = [54, 26, 93, 17, 77, 31, 44, 55, 20];
 var arr002 = [8,7,6,5,4,3,2,1];
+let arr003 = [9,8,6,4,0,7,2,1,5,6,3];
 var rst = quickSort(arr001,0,arr001.length-1);
 var rst2 = quickSort2(arr002);
+var rst3 = quickSort2(arr003);
 console.log(rst);
 console.log(rst2);
+console.log(rst3);

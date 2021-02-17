@@ -28,7 +28,7 @@ function deepclone3(target,map=new Map()){
         // 每次克隆前判断是否已克隆过
         let cache = map.get(target);
         if(cache){
-            return caches;
+            return cache;
         }
         const result = Array.isArray(target)?[]:{};
         // 把已经克隆过的放入map，下次遇到就不需要再克隆了
@@ -45,12 +45,12 @@ function deepclone3(target,map=new Map()){
 }
 
 // 遍历性能优化
-function deepclone4(target){
+function deepclone4(target,map){
     if(typeof target=="object" && target!==null){
         // 每次克隆前判断是否已克隆过
         let cache = map.get(target);
         if(cache){
-            return caches;
+            return cache;
         }
         let isArray = Array.isArray(target)
         const result = isArray?[]:{};
@@ -73,13 +73,70 @@ function deepclone4(target){
     }
 }
 
+// 带正则和日期
+function deepclone5(obj,map){
+    let ts = Object.prototype.toString;
+    if(obj==null){
+        return null;
+    }
+    if(typeof obj !=="object"){
+        return obj;
+    }
+    if(ts.call(obj)==="[object RegExp]"){
+        return new RegExp(obj);
+    }
+    if(ts.call(obj)==="[object Date]"){
+        return new Date(obj);
+    }
+    // 直接调用已复制过的
+    let cache = map.get(obj);
+    if(cache){
+        return cache;
+    }
+    // constructor一般指向Object，但也可能是实例的类->克隆出来也是这个实力的类
+    let newObj = new obj.constructor;
+    // 记录已复制过
+    map.set(obj,newObj);
+    for(let key in obj){
+        if(obj.hasOwnProperty(key)){
+            newObj[key] = deepclone5(obj[key],map);
+        }
+    }
+    return newObj;
+}
+
 // test
-const obj = {x:"abc",y:{m:1},z:[1,2,3]};
+const obj = {
+    a:1,
+    b:[2,3],
+    d:{x:1,y:[1,2],z:{zz:1}},
+    f:"abc"
+}
+// 循环调用+正则+日期
+const obj2 = {
+    a:1,
+    b:[2,3],
+    c:/^\d+$/,
+    d:{x:1,y:[1,2],z:{zz:1}},
+    e: Date.now(),
+    f:"abc",
+}
+obj2.g = obj2.d;
+obj2.d.r = obj2.g;
+
 const result1 = deepclone1(obj);
 const result2 = deepclone2(obj);
-const result3 = deepclone3(obj);
-const result4 = deepclone4(obj);
+let map3 = new Map();
+const result3 = deepclone3(obj,map3);
+let map4 = new Map();
+const result4 = deepclone4(obj,map4);
+let map5 = new Map();
+const result5 = deepclone5(obj2,map5);
 console.log(result1);
 console.log(result2);
 console.log(result3);
 console.log(result4);
+console.log(result5);
+result5.d.x = [0,1,2];
+console.log(obj2);
+console.log(result5);
