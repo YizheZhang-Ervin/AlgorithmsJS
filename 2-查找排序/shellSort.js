@@ -20,6 +20,7 @@ function shellSort(arr,optimize){
         // 每次间隔缩小一半
         for(let i=gap;i>0;i=Math.floor(i/2)){
             insertionSort(arr,i,lens)
+            console.log(arr);
         }
         return arr;
     }
@@ -41,5 +42,5 @@ function insertionSort(arr,gap,lens){
 }
 
 var arr001 = [8,7,6,5,4,3,2,1];
-var rst = shellSort(arr001,true);
+var rst = shellSort(arr001,false);
 console.log(rst);

@@ -1,4 +1,12 @@
-// 6-Leetcode题目数量统计
+// 已做Leetcode
+// stack: 20
+// queue: 933
+// set: 349
+// map: 1,3,76
+// linkedlist: 2,21,83,141,206,237
+// tree: 94,102,104,112
+// heap: 347
+// graph: 65, 417
 
 let leetcodeProblems = [1,2,3,4,10,
     20,21,23,25,28,
@@ -17,8 +25,4 @@ let leetcodeProblems = [1,2,3,4,10,
     933
 ];
 
-let count = function(arr){
-    return arr.length;
-}
-
-console.log(count(leetcodeProblems));
+console.log(leetcodeProblems.length);

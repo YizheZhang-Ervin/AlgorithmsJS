@@ -52,48 +52,23 @@ function quickSort2(arr){
     if(lens<=1){
         return arr;
     }
-    // 找到基准值
+    // 找到基准值: 中间数
     let pivot = Math.floor(lens/2);
     let pivotVal = arr.splice(pivot,1)[0];
+    // 定义左数组右数组
     let left = [], right = [];
     for(var i=0;i<arr.length;i++){
         var current = arr[i];
-        // 小于基准值加入左
-        if(current<pivotVal){
-            left.push(current);
-        // 大于基准值加入右
-        }else{
-            right.push(current);
-        }
+        // 小于基准值加入左, 大于基准值加入右
+        current<pivotVal?left.push(current):right.push(current);
     }
     // 左右分别快排再合并
-    var sortedLeft = quickSort2(left);
-    var sortedRight = quickSort2(right);
-    var rst = sortedLeft.concat([pivotVal],sortedRight);
-    return rst;
-}
-
-function quickSort3(arr){
-    if(arr.length<=1){
-        return arr;
-    }
-    let middleIndex = Math.floor(arr.length/2);
-    let middleValue = arr.splice(middleIndex,1)[0];
-    let arrLeft = [],
-        arrRight = [];
-    for(let i=0;i<arr.length;i++){
-        let item = arr[i];
-        item<middleValue?arrLeft.push(item):arrRight.push(item);
-    }
-    return quick(arrLeft).concat(middleValue,quick(arrRight));
+    return quickSort2(left).concat([pivotVal],quickSort2(right));
 }
 
 var arr001 = [54, 26, 93, 17, 77, 31, 44, 55, 20];
-var arr002 = [8,7,6,5,4,3,2,1];
-let arr003 = [9,8,6,4,0,7,2,1,5,6,3];
+let arr002 = [9,8,6,4,0,7,2,1,5,6,3];
 var rst = quickSort(arr001,0,arr001.length-1);
 var rst2 = quickSort2(arr002);
-var rst3 = quickSort2(arr003);
 console.log(rst);
 console.log(rst2);
-console.log(rst3);
