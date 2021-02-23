@@ -20,7 +20,7 @@ function shellSort(arr,optimize){
         // 每次间隔缩小一半
         for(let i=gap;i>0;i=Math.floor(i/2)){
             insertionSort(arr,i,lens)
-            console.log(arr);
+            // console.log(arr);
         }
         return arr;
     }
