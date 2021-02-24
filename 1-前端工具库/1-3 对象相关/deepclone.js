@@ -93,7 +93,7 @@ function deepclone5(obj,map){
     if(cache){
         return cache;
     }
-    // constructor一般指向Object，但也可能是实例的类->克隆出来也是这个实力的类
+    // constructor一般指向Object，但也可能是实例的类->克隆出来也是这个实例的类
     let newObj = new obj.constructor;
     // 记录已复制过
     map.set(obj,newObj);
