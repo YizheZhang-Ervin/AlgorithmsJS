@@ -7,7 +7,7 @@ class Stack{
         this.temp = null;
     }
     push(val){
-        // 全局最小值为空
+        // 全局最小值不为空
         if(this.temp!=null){
             // 压入值<全局最小值，最小栈压入压入值
             if(val<this.temp){
@@ -18,7 +18,7 @@ class Stack{
                 this.stack.push(val);
                 this.minStack.push(this.temp);
             }
-        // 全局最小值不为空，设置全局最小值为压入值
+        // 全局最小值为空，设置全局最小值为压入值
         }else{
             this.temp = val;
             this.stack.push(val);
