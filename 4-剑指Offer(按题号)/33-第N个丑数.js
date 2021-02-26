@@ -18,6 +18,7 @@ function uglyNum(idx){
         // 取各指针对应的前一个丑数*(2或3或5)中结果的最小值
         arr[i] = Math.min(arr[p2]*2,arr[p3]*3,arr[p5]*5);
         // 是几的倍数，这个倍数的指针就+1
+        // 是公倍数则指针都+1
         if(arr[i]==arr[p2]*2){
             p2++;
         }

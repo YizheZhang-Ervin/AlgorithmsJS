@@ -40,4 +40,4 @@ function FindContinuousSequence(sum){
     return rst2;
 }
 
-console.log(FindContinuousSequence(9));
+console.log(FindContinuousSequence(3));

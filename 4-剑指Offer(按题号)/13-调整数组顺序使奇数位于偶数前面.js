@@ -3,33 +3,39 @@
 // 并保证奇数和奇数，偶数和偶数之间的相对位置不变。
 
 function reOrderArray(array) {
-    let len = array.length;
-    if(len <= 1){
+    if(array.length <= 1){
         return array;
     }
-    for (let i = 0; i < len; i++) {
+    // 遍历数组
+    for(let i=0;i<array.length;i++){
         // 如果是偶数
-        if (array[i] % 2 == 0) {
-            // 找此数后第一个奇数
-            let j = i + 1;
-            while (array[j] % 2 == 0) {
-                // 当后面再无奇数，返回数组
-                if(j==len-1){
-                    return array;
-                }
-                j++;
+        if(array[i]%2==0){
+            let tmpIdx = i+1;
+            // 找到此数后面第一个奇数
+            while(array[tmpIdx]%2==0){
+                // 后面无奇数则返回数组
+                if(tmpIdx==array.length-1) return array;
+                tmpIdx++;
             }
-            // 此数后第一个奇数
-            let temp = array[j];
-            // i及后面的偶数后移
-            for(let x=j; x>i;x--) {
-                array[x] = array[x-1];
+            // 偶数i后的其他所有数后移，奇数提前
+            let firstOdd = array[tmpIdx];
+            while(tmpIdx>i){
+                array[tmpIdx] = array[tmpIdx-1];
+                tmpIdx--;
             }
             // 把奇数放在i的地方
-            array[i] = temp;
+            array[i] = firstOdd;
         }
     }
-    return array
+    // 返回数组
+    return array;
+}
+
+function reOrderArray2( array ) {
+    let even = array.filter(ele=>ele%2==0);
+    let odd = array.filter(ele=>ele%2!=0);
+    return odd.concat(even);
 }
 
 console.log(reOrderArray([1, 2, 3, 4, 5]));
+console.log(reOrderArray2([1, 2, 3, 4, 5]));

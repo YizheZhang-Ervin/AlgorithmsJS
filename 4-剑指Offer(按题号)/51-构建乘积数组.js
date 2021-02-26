@@ -25,3 +25,23 @@ function multiply(arr){
 }
 
 console.log(multiply([1,2,3,4,5]));
+
+function multiply2(array)
+{
+    // 下三角
+    let init = 1,
+        B = [];
+    for(let i=0;i<array.length;i++){
+        B[i] = init;
+        init *= array[i];
+    }
+    // 上三角
+    let init2 = 1;
+    for(let j=array.length-1;j>=0;j--){
+        B[j] *= init2;
+        init2 *= array[j];
+    }
+    return B;
+}
+
+console.log(multiply2([1,2,3,4,5]));

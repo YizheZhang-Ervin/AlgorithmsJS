@@ -34,7 +34,7 @@ let insertionSort = (arr) => {
     // 在前部维护一个有序列表
     for(let i=1;i<arr.length;i++){
         let currentValue = arr[i];
-        // 有序部分最后一个数索引
+        // 无序部分第一个数索引
         let seqMaxIdx = i;
         // 当前值和有序部分对比，有序部分比当前值大的都后移一格
         while(arr[seqMaxIdx-1]>currentValue && seqMaxIdx-1>=0){

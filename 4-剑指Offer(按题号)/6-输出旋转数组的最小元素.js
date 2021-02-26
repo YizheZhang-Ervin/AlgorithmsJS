@@ -30,3 +30,23 @@ function findMin(arr){
 }
 
 console.log(findMin([3,4,5,1,2]));
+
+function minNumberInRotateArray(rotateArray)
+{
+    if(rotateArray.length==0) return 0;
+    let left = 0,
+        right = rotateArray.length-1;
+    while(left<=right){
+        let mid = Math.floor((left+right)/2);
+        if(rotateArray[mid]>rotateArray[right]){
+            left=mid+1;
+        }else if(rotateArray[mid]<rotateArray[right]){
+            right=mid-1;
+        }
+        if(rotateArray[mid]<rotateArray[mid-1]){
+            return rotateArray[mid];
+        }
+    }
+    return 0;
+}
+console.log(minNumberInRotateArray([3,4,5,1,2]));

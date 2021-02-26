@@ -11,10 +11,18 @@ class DataStream{
     insert(num){
         // 把num插入arr最后
         this.arr.push(num);
+        // 每次向有序数组插入数据所以用插入排序
         // 倒序遍历，比num大的数都往后排，把num插入到合适位置
-        for(let i = this.arr.length-2;this.arr[i]>num;i--){
-            [this.arr[i],this.arr[i+1]] = [this.arr[i+1],this.arr[i]];
+        // for(let i = this.arr.length-2;this.arr[i]>num;i--){
+        //     [this.arr[i],this.arr[i+1]] = [this.arr[i+1],this.arr[i]];
+        // }
+        // 或插入排序
+        let lastSeqIdx = this.arr.length-2;
+        while(num<this.arr[lastSeqIdx] && lastSeqIdx>0){
+            this.arr[lastSeqIdx+1] = this.arr[lastSeqIdx];
+            lastSeqIdx--;
         }
+        this.arr[lastSeqIdx+1] = num;
     }
 
     getMedian(){
@@ -32,7 +40,7 @@ class DataStream{
 
 ds = new DataStream();
 ds.insert(1);
-ds.insert(1);
+ds.insert(5);
 ds.insert(3);
-// ds.insert(2);
+ds.insert(2);
 console.log(ds.getMedian());

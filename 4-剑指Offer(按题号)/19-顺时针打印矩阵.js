@@ -3,59 +3,54 @@
 // 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
 // 输入:[[1,2],[3,4]]，输出:[1,2,4,3]
 
-function printMatrix(matrix){
-    // 起始行(上)rStart，起始列(左)cStart，结束行(下)rEnd，结束列(右)cEnd,输出结果rst
-    let rEnd = matrix.length-1,
-        cEnd = matrix[0].length-1,
-        rStart = 0,
-        cStart = 0,
-        rst = [];
-    // 判断是否遍历完
-    while(rStart<rEnd+1 && cStart<cEnd+1){
-        let r1,
-            r2,
-            c1,
-            c2;
-        // 左->右,变的是c1
-        c1 = cStart;
-        while(c1<cEnd+1){
-            rst.push(matrix[rStart][c1]);
-            c1++;
+function printMatrix2(matrix){
+    // 起始行(上)top，起始列(左)left，结束行(下)bottom，结束列(右)right,输出结果arr
+    let arr = [],
+        top = 0,
+        left = 0,
+        right = matrix[0].length-1,
+        bottom = matrix.length-1;
+    // 判断界内有数字
+    while(top<=bottom && left<=right){
+        // 左->右
+        let tmpCol = left;
+        while(tmpCol<=right){
+            arr.push(matrix[top][tmpCol]);
+            // 向右一格
+            tmpCol++;
         }
-        // 进下一行
-        rStart++;
-        // 上->下，变的是r1
-        r1 = rStart;
-        while(r1<rEnd+1){
-            rst.push(matrix[r1][cEnd]);
-            r1++;
+        // 顶上进下一行
+        top++;
+        // 上->下
+        let tmpRow = top;
+        while(tmpRow<=bottom){
+            arr.push(matrix[tmpRow][right]);
+            tmpRow++;
         }
-        // 进左一列
-        cEnd--;
-
-        // 起始行>结束行 或 起始列>结束列 则提前结束
-        if(cStart>cEnd || rStart>rEnd){
-            return rst;
+        // 右边进左一列
+        right--;
+        
+        // 出界提前结束
+        if(top>bottom || left>right) return arr;
+        
+        // 右->左
+        let tmpCol2 = right;
+        while(tmpCol2>=left){
+            arr.push(matrix[bottom][tmpCol2]);
+            tmpCol2--;
         }
-
-        // 右->左，变的是c2
-        c2 = cEnd;
-        while(c2>cStart-1){
-            rst.push(matrix[rEnd][c2]);
-            c2--;
+        // 下面进上一行
+        bottom--;
+        let tmpRow2 = bottom;
+        // 下->上
+        while(tmpRow2>=top){
+            arr.push(matrix[tmpRow2][left]);
+            tmpRow2--;
         }
-        // 进上一行
-        rEnd--;
-        // 下->上，变的是r2
-        r2 = rEnd;
-        while(r2>rStart-1){
-            rst.push(matrix[r2][cStart]);
-            r2--;
-        }
-        // 进右一列
-        cStart++;
+        // 左面进右一列
+        left++;
     }
-    return rst;
+    return arr;
 }
 
 console.log(printMatrix([[1,2,3],[4,5,6],[7,8,9]]))

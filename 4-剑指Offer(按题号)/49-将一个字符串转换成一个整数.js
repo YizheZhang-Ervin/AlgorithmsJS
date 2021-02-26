@@ -8,8 +8,7 @@ function strToNum(str){
         regStart = /[1-9\+\-]/,
         regStart2 = /[1-9\-]/,
         regOne = /[1-9]/,
-        regContent = /^[0-9]*$/,
-        flag = true;
+        regContent = /^[0-9]*$/;
     //判断字符串长度为1时
     if(str.length==1){
         // 判断是否为数字1-9
@@ -36,3 +35,14 @@ function strToNum(str){
 }
 
 console.log(strToNum("+122"));
+
+function StrToInt(str)
+{
+    // 是否为空或者数字0
+    // if(!str || 1*str==0) return 0;
+    // 输出数字
+    let rst = 1*str;
+    return rst?rst:0;
+}
+
+console.log(StrToInt("abc"));

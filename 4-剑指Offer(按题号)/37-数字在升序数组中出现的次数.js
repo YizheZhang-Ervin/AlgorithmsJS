@@ -14,7 +14,7 @@ function findBound(arr, num, bound = "upper") {
                 left = mid + 1;
             // 中间值>目标值，目标在左
             } else{
-                right = mid - 1;
+                right = mid;
             }
         // 找下边界
         } else {
@@ -23,7 +23,7 @@ function findBound(arr, num, bound = "upper") {
                 left = mid + 1;
             // 中间值>=目标值，目标在左
             } else{
-                right = mid - 1;
+                right = mid;
             }
         }
     }
@@ -31,6 +31,9 @@ function findBound(arr, num, bound = "upper") {
 }
 
 function countNum(arr, num) {
+    if(arr.indexOf(num)==-1){
+        return 0
+    }
     let upBound = findBound(arr, num, "upper"),
         lowBound = findBound(arr, num, "lower");
     // 如果上界在数组末尾
@@ -42,3 +45,40 @@ function countNum(arr, num) {
 }
 
 console.log(countNum([1,2,3,3,3,3,4,5],3));
+
+function GetNumberOfK(data, k)
+{
+    if(data.indexOf(k)==-1){
+        return 0
+    }
+    let left1 = 0,
+        right1 = data.length-1,
+        left2 = 0,
+        right2 = data.length-1;
+    // 查下界:最后一步是left=mid+1，所以left查到的是下边界的k
+    while(left1<right1){
+        let mid = Math.floor((left1+right1)/2);
+        // 目标<=中间数，目标在左
+        if(k<=data[mid]){
+            right1 = mid;
+        }else{
+            left1 = mid+1;
+        }
+    }
+    // 查上界: 最后一步是left=mid+1，所以left查到的是上边界的k后面一个数
+    while(left2<right2){
+        let mid = Math.floor((left2+right2)/2);
+        if(k<data[mid]){
+            right2 = mid;
+        // 目标>=中间数，目标在右
+        }else{
+            left2 = mid+1;
+        }
+    }
+    console.log(left2,left1)
+    if(data[left2]==k && left2==data.length-1){
+        return left2-left1+1;
+    }
+    return left2-left1;
+}
+console.log(GetNumberOfK([1,2,3,3,3,4,5],3));

@@ -3,67 +3,44 @@
 // 并将P对1000000007取模的结果输出。 即输出P%1000000007
 // 输入:[1,2,3,4,5,6,7,0]，输出:7
 
-class InversePairs{
-
-    constructor(arr){
-        this.counts = 0;
-        this.arr = arr;
-    }
-
-    map(arr){
-        let len = arr.length;
+function InversePairs(data){
+    let movement = 0;
+    let map = (arr) =>{
         // 数组为空
-        if(len==0){
-            return [];
-        }
+        if(arr.length==0) return [];
         // 数组仅一个数字
-        if(len==1){
-            return arr;
-        }
+        if(arr.length==1) return arr;
         // 中值mid，数组左半leftArr，数组右半rightArr
-        let mid = Math.floor(len/2),
-        leftArr = arr.slice(0,mid),
-        rightArr = arr.slice(mid),
-        leftMap = this.map(leftArr),
-        rightMap = this.map(rightArr);
+        let mid = Math.floor(arr.length/2);
+        let left = arr.slice(0,mid);
+        let right = arr.slice(mid);
         // 拉链对比，合并左半右半
-        return this.reduce(leftMap,rightMap);
+        return reduce(map(left),map(right));
     }
-    
-    reduce(left,right){
-        let startLeft = 0,
-            endLeft = left.length,
-            startRight = 0,
-            endRight = right.length,
-            rst = [];
-        // 判断两个数组是否对比玩
-        while(startLeft<endLeft && startRight<endRight){
-            // 左数组头<右数组头
-            if(left[startLeft]<right[startRight]){
-                rst.push(left[startLeft]);
-                startLeft++;
+    let reduce = (arr1,arr2) =>{
+        let rst=[],
+            p1=0,
+            p2=0;
+        // 判断两个数组是否对比完
+        while(p1<arr1.length && p2<arr2.length){
             // 左数组头>右数组头
+            if(arr1[p1]>arr2[p2]){
+                rst.push(arr2[p2]);
+                // 左数组大，右数组小->说明存在逆序对
+                // 右数字总的移动次数==逆序对个数
+                // 本次存在的逆序对个数==左数组总长-当前左数组索引位
+                movement = (movement+arr1.length-p1)%1000000007;
+                p2++;
+            // 左数组头<右数组头
             }else{
-                rst.push(right[startRight]);
-                startRight++;
-                // 右数字的移动次数=逆序对个数
-                this.counts = (this.counts+endLeft-startLeft)%1000000007;
+                rst.push(arr1[p1]);
+                p1++;
             }
         }
-        // 左数组对比完仍有剩余，加入结果中
-        if(startLeft<endLeft){
-            rst = rst.concat(left.slice(startLeft));
-        }
-        // 右数组对比完仍有剩余，加入结果中
-        if(startRight<endRight){
-            rst = rst.concat(right.slice(startRight));
-        }
-        return rst;
+        // 两数组可能对比完仍有剩余，加入结果中
+        return rst.concat(arr1.slice(p1),arr2.slice(p2));
     }
+    map(data);
+    return movement;
 }
-
-let ip = new InversePairs([1,2,3,4,5,6,7,0]);
-let rst = ip.map(ip.arr);
-console.log(ip.counts);
-
-
+console.log(InversePairs([1,2,3,4,5,6,7,0]));

@@ -9,6 +9,7 @@ function add2Num(a,b){
         // 与、左移:进位
         b = (a&b)<<1
         a = temp;
+        // 简写: [num1,num2] = [num1^num2,(num1&num2)<<1];
     }
     // 个位最终值为输出结果
     return a;
