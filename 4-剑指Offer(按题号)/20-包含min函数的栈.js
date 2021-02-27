@@ -46,3 +46,54 @@ console.log(s.top());
 console.log(s.min());
 s.pop()
 console.log(s.min());
+
+let minStackTest = ()=>{
+    let stack = [];
+    let minStack = [];
+    let tempMin;
+    function push(node)
+    {
+        stack.push(node);
+        if(stack.length==0){
+            tempMin = node;
+        }else{
+            if(node<tempMin){
+                tempMin = node;
+            }else{
+                tempMin = tempMin || stack[0];
+            }
+        }
+        minStack.push(tempMin);
+    }
+    function pop()
+    {
+        stack.pop();
+        minStack.pop();
+    }
+    function top()
+    {
+        return stack[stack.length-1];
+    }
+    function min()
+    {
+        return minStack[minStack.length-1];
+    }
+    push(3)
+    console.log(min())
+    push(4)
+    console.log(min())
+    push(2)
+    console.log(min())
+    push(3)
+    console.log(min())
+    pop()
+    console.log(min())
+    pop()
+    console.log(min())
+    pop()
+    console.log(min())
+    push(0)
+    console.log(min())
+}
+
+minStackTest();

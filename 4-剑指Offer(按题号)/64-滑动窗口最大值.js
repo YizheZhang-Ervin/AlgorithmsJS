@@ -8,6 +8,8 @@
 // 输入:[2,3,4,2,6,2,5,1],3，输出:[4,4,6,6,6,5]
 
 function maxInWindows(num, size){
+    // 窗口为0或者窗口比数组长，返回空
+    if(size==0 || size>num.length) return [];
     // 窗口左指针left，窗口右指针right，输入数组长度len，结果数组rst
     let left = 0,
         right = left+size-1,

@@ -22,5 +22,5 @@ function fibonacci2(n){
     return n1;
 }
 
-console.log(fibonacci(3));
+console.log(fibonacci(10));
 console.log(fibonacci2(3));
