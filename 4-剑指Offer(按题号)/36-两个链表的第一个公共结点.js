@@ -1,42 +1,48 @@
 // 输入两个链表，找出它们的第一个公共结点。
 // （注意因为传入数据是链表，所以错误测试数据的提示是用其他方式显示的，保证传入数据是正确的）
 
-function findFirstCommonNode(p1, p2){
-    if(p1==null || p2==null){
-        return null;
+function findFirstCommonNode(pHead1, pHead2){
+    if(pHead1==null || pHead2==null) return null;
+    // 两表一起走，长多走的k为长出的部分
+    let p1 = pHead1,
+        p2 = pHead2,
+        k = 0,
+        flag = null;
+    while(p1 || p2){
+        if(p1 && p2){
+            p1 = p1.next;
+            p2 = p2.next;
+        }else if(p1 && !p2){
+            p1 = p1.next;
+            k++;
+            flag = "p1";
+        }else if(!p1 && p2){
+            p2 = p2.next;
+            k++;
+            flag ="p2";
+        }
     }
-    let count1 = 0,
-        count2 = 0,
-        pHead1 = p1,
-        pHead2 = p2;
-    while(pHead1){
-        count1++;
-        pHead1 = pHead1.next;
-    }
-    while(pHead2){
-        count2++;
-        pHead2 = pHead2.next;
-    }
-    pHead1 = p1;
-    pHead2 = p2;
-    if(count1>count2){
-        let diff = count1-count2;
-        while(diff){
-            pHead1 = pHead1.next;
-            diff--;
+    // 长表先走k步
+    p1 = pHead1;
+    p2 = pHead2;
+    if(flag=="p1"){
+        while(k){
+            p1 = p1.next;
+            k--;
         }
     }else{
-        let diff = count2-count1;
-        while(diff){
-            pHead2 = pHead2.next;
-            diff--;
+        while(k){
+            p2 = p2.next;
+            k--;
         }
     }
-    while(pHead1!=pHead2){
-        pHead1 = pHead1.next;
-        pHead2 = pHead2.next;
+    
+    // 两表一起走，走到相同点即位公共点
+    while(p1!=p2){
+        p1 = p1.next;
+        p2 = p2.next;
     }
-    return pHead1;    
+    return p1;
 }
 
 let m1 = {val:4},

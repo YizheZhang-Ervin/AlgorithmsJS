@@ -4,7 +4,7 @@
 
 function verifySquenceOfBST(sequence){
     // 序列空则false
-    if(sequence.length==0){
+    if(sequence.length==0 || !sequence){
         return false;
     }
     // 序列仅一个节点则true
@@ -14,8 +14,8 @@ function verifySquenceOfBST(sequence){
     // 序列长度>1
     if(sequence.length>1){
         let root = sequence[sequence.length-1];
-        let leftTree = [],
-            rightTree = [],
+        let leftTree = true,
+            rightTree = true,
             l = 0,
             r;
         // 找到左右子树分界点
@@ -24,14 +24,14 @@ function verifySquenceOfBST(sequence){
         }
         r = l;
         // 如果右子树存在
-        while(r<sequence.length){
+        while(r<sequence.length-1){
             // 右子树节点值<根节点值，则false
             if(sequence[r]<root){
                 return false;
             }
             r++;
         }
-        // 迭代左右子树
+        // 递归左右子树
         if(l>0){
             leftTree = verifySquenceOfBST(sequence.slice(0,l));
         }
@@ -42,4 +42,4 @@ function verifySquenceOfBST(sequence){
     }
 }
 
-console.log(verifySquenceOfBST([4,8,6,12,16,14,10]));
+console.log(verifySquenceOfBST([1,2,3,4,5]));

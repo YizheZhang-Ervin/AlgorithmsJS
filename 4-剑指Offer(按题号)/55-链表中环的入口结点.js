@@ -17,12 +17,11 @@ function entryNodeOfLoop(pHead){
         }
     }
     // 如果快指针走完下一个是null说明无环
-    if(fast==null || fast.next==null){
-        return null;
-    }
-    fast = pHead;
+    if(!fast || !fast.next) return null;
+    
     // 快指针从链表头重新走，慢指针原先位置继续走，快慢指针相遇的位置则为环的入口
     // 开始到入口d1=多个环+慢指针环内未走的部分d3
+    fast = pHead;
     while(fast!=slow){
         fast = fast.next;
         slow = slow.next;

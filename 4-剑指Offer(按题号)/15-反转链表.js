@@ -26,3 +26,23 @@ let l1 = {val:1},
 l1.next = l2;
 l2.next = l3;
 console.log(reverseList(l1));
+
+function ReverseList(pHead)
+{
+    let p1 = null,
+        p2 = pHead,
+        temp = null;
+    while(p2){
+        temp = p2.next;
+        p2.next = p1;
+        p1 = p2;
+        p2 = temp;
+    }
+    return p1;
+}
+let l11 = {val:1},
+    l22 = {val:2},
+    l33 = {val:3};
+l11.next = l22;
+l22.next = l33;
+console.log(ReverseList(l11));
