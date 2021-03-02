@@ -18,15 +18,16 @@ function convert(pRoot){
     }
     // 头节点应该在左子树最右节点的右边
     if(left){
-        p.right=pRoot
-        pRoot.left=p
+        p.right=pRoot;
+        pRoot.left=p;
     }
     // 右子树转成双向链表
     let right=convert(pRoot.right)
+    let p2=right;
     // 头节点应该在左子树最右节点的左边
-    if(right){
-        right.left=pRoot
-        pRoot.right=right
+    if(p2){
+        p2.left=pRoot;
+        pRoot.right=p2;
     }
     //left为空，表头为pRoot，反之则表头直接为left
     return left!=null?left:pRoot

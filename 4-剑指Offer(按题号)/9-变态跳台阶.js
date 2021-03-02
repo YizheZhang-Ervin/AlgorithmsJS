@@ -9,4 +9,15 @@ function jumpFloorII(number){
     return jumpFloorII(number-1)*2;
 }
 
+function jumpFloorII2(number)
+{
+    let n1 = 1;
+    if(number<2) return n1;
+    for(let i=2;i<number+1;i++){
+        n1 *= 2; 
+    }
+    return n1;
+}
+
 console.log(jumpFloorII(3));
+console.log(jumpFloorII2(3));

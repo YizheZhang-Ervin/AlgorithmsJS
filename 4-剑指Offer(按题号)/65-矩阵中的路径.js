@@ -6,46 +6,37 @@
 // 输入: "ABCESFCSADEE",3,4,"ABCCED"，输出: true
 // 输入: "ABCESFCSADEE",3,4,"ABCB"，输出: false
 
-function hasPath(matrix, rows, cols, path){
-    // 矩阵空，行空，列空，矩阵大小<路径长度，路径为0，则返回false
-    if(!matrix || !rows || !cols || rows*cols < path.length || path.length == 0){
+function hasPath( matrix ,  rows ,  cols ,  str ) {
+    // 深度优先遍历
+    let dfs = (r,c,depth)=>{
+        // 矩阵行列转为字符串索引号
+        let idx = r*cols+c;
+        // 点超出矩阵、路径某值!=矩阵某值、矩阵某值已访问->false
+        if(r<0||c<0||r>rows-1||c>cols-1||str[depth]!=matrix[idx]||record[idx]==true) return false;
+        // 整个路径都找到->true
+        if(depth==str.length-1) return true;
+        // 路径某个中间节点设为已访问
+        record[idx] = true;
+        // 对当前节点的四个方向遍历，有一个通->true
+        if(dfs(r+1,c,depth+1)||dfs(r-1,c,depth+1)
+           ||dfs(r,c+1,depth+1)||dfs(r,c-1,depth+1)) return true;
+        // 路径不通，节点设为未访问
+        record[idx] = false;
+        // 其他情况->false
         return false;
     }
-    // 字符串变矩阵数组
-    let mat = matrix.split("");
-    // 矩阵中所有点都可能是起点
-    for(let i=0;i<rows;i++){
-        for(let j=0;j<cols;j++){
-            if(dfs(matrix, i, j, rows, cols, mat, path, 0)){
-                return true;
-            }
+    // 矩阵空、行空、列空、路径>矩阵总长、路径空 -> false
+    if(!matrix||!rows||!cols||str.length>matrix.length||str.length==0) return false;
+    // 记录点是否可通
+    let record = Array.from({length:matrix.length}).fill(0);
+    // let record = matrix.split("");
+    // 遍历矩阵，对每个点都深度优先遍历,如果路径存在->true
+    for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+            if(dfs(r,c,0)) return true;
         }
     }
-    return false;
-}
-
-function dfs(matrix, i, j, rows, cols, mat, path, k){
-    // 矩阵在一维数组中的索引号
-    let index = i*cols+j+1-1;
-    // ij指针超出矩阵范围，路径某值不等于矩阵某值，矩阵某值已访问，则返回false
-    if(i < 0 || j < 0 || i>=rows || j>=cols || path[k] != matrix[index] || mat[index]==true){
-        return false;
-    }
-    // 当整个路径都找到时，返回true
-    if(k == path.length - 1){
-        return true;
-    }
-    // 设当前节点已访问
-    mat[index] = true;
-    // 在当前节点的四个方向上深度遍历,只要有一个方向可通，就返回true
-    if(dfs(matrix,i-1,j,rows,cols,mat,path,k+1) || dfs(matrix,i+1,j,rows,cols,mat,path,k+1)||
-        dfs(matrix,i,j-1,rows,cols,mat,path,k+1) || dfs(matrix,i,j+1,rows,cols,mat,path,k+1)
-    ){
-        return true;
-    }
-    // 路不通则当前节点设为未访问
-    mat[index] = false;
-    // 其他情况返回false
+    // 其他情况->false
     return false;
 }
 

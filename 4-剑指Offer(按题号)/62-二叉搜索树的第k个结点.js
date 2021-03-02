@@ -33,4 +33,4 @@ let n4 = { val: 2, left: null, right: null };
 let n3 = { val: 7, left: n6, right: n7 };
 let n2 = { val: 3, left: n4, right: n5 };
 let n1 = { val: 5, left: n2, right: n3 };
-console.log(kthNode(n1, 3));
+console.log(KthNode(n1, 3));

@@ -22,4 +22,22 @@ function printMinNumber(numbers){
     return rst;
 }
 
+function printMinNumber2(numbers)
+{
+    // number空返回""
+    if(!numbers || numbers.length==0) return "";
+    // 冒泡排序
+    for(let i=0;i<numbers.length;i++){
+        for(let j=0;j<numbers.length-i-1;j++){
+            let num1 = numbers[j]+""+numbers[j+1],
+                num2 = numbers[j+1]+""+numbers[j];
+            if(num1>num2){
+                [numbers[j],numbers[j+1]] = [numbers[j+1],numbers[j]];
+            }
+        }
+    }
+    return numbers.join("");
+}
+
 console.log(printMinNumber([3,32,321]));
+console.log(printMinNumber2([3,32,321]));

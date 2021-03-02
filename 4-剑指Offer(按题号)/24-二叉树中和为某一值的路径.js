@@ -32,6 +32,30 @@ function dfs(root,rst,item,target){
     }
 }
 
+function findPath2(root, expectNumber)
+{
+    // 根为空，返回[]
+    if(!root) return [];
+    // 结果
+    let rst = [];
+    // 根不空，深度遍历
+    let dfs = (root,path)=>{
+        // 节点值存入路径
+        path.push(root.val);
+        // 左子树右子树空
+        if(!root.left && !root.right){
+            let sum = path.reduce((total,cur)=>total+=cur);
+            expectNumber==sum?rst.push(path):null;
+            return;
+        }
+        // 左子树右子树不空
+        if(root.left) dfs(root.left,[...path]);
+        if(root.right) dfs(root.right,[...path]);
+    }
+    dfs(root,[]);
+    return rst;
+}
+
 let n5 = {val:7,left:null,right:null};
 let n4 = {val:4,left:null,right:null};
 let n3 = {val:12,left:null,right:null};
@@ -39,4 +63,4 @@ let n2 = {val:5,left:n4,right:n5};
 let n1 = {val:10,left:n2,right:n3};
 
 console.log(findPath(n1,22));
-console.log(findPath(n1,15));
+console.log(findPath2(n1,22));

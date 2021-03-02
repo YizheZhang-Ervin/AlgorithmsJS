@@ -3,36 +3,30 @@
 // 输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
 // 输入:"ab"，输出:["ab","ba"]
 
-function permutation(str){
-    // 字符串str空，返回空数组
-    if(str.length==0){
-        return [];
-    }
-    // 结果集rst
-    let rst = [];
-    // 字符串排列
-    arrange(rst,"",str);
-    return rst;
-}
-
-function arrange(rst,s,str){
-    // 当字符串str最后一个字母处理完毕，所有处理结果加入结果集rst
-    if(str.length==0){
-        rst.push(s);
-    }
-    // 遍历整个字符串str
-    for(let i=0;i<str.length;i++){
-        // 如果前后字母一致则进下个循环
-        if(i>0 && str[i]==str[i-1]){
-            continue;
+function permutation(str)
+{
+    // 字符串空，返回空串
+    if(!str) return [];
+    let arr = [];
+    let arrange = (rst,string)=>{
+        // 如果string为空(处理完)，加入结果集
+        if(!string) arr.push(rst);
+        // 未处理完则遍历string
+        for(let i=0;i<string.length;i++){
+            // 和前一个字母一致则continue
+            if(i>0 && string[i]==string[i-1]){
+                continue;
+            }
+            // 当前字符和递归结果拼接
+            let rst2 = rst+string[i];
+            // 去除当前字符形成新串，继续递归
+            let string2 = string.slice(0,i)+string.slice(i+1);
+            arrange(rst2,string2);
         }
-        // 把第i个字母去除，形成新待排列的字符串str
-        let newStr = str.slice(0,i)+str.slice(i+1);
-        // 和上个递归的字母拼接
-        let newS = s+str[i];
-        // 递归
-        arrange(rst,newS,newStr);
     }
+    arrange("",str);
+    return arr;
 }
 
-console.log(permutation("ab"));
+console.log(permutation("abc"));
+console.log(permutation("abcc"));
