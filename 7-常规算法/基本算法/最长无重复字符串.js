@@ -1,5 +1,7 @@
 // 获取给定字符串中最长无重复字符串的子字符串，如'adgadgz'->'adgz'
 
+// 字符串中没有重复字符的子串最大长度
+
 function uniqueSubstr(str1){
     // 做一个滑动窗口
     var slidingWindow = [],
