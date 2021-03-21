@@ -1,4 +1,5 @@
 // 超大整数相加
+// bigInt范围内可以用let num = 12345n;
 
 function bigNumSum(num1,num2){
     var n1 = num1.split("");

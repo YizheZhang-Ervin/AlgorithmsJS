@@ -322,6 +322,7 @@ console.log(serialize(form));
 // 图片懒加载实现(window.onscroll时触发)
 let lazyLoad=(imgs)=>{
     let getTop=(ele)=>{
+        // offsetTop: 当前对象到其上级层顶部的距离
         let dis = ele.offsetTop;
         // 最近的父元素
         while(ele=ele.offsetParent){
@@ -332,6 +333,8 @@ let lazyLoad=(imgs)=>{
     // 滚动条位置+可视区域高度>当前元素与页面顶部的距离，就加载这个图片
     let de = document.documentElement;
     let ch = de.clientHeight;
+    // 对象的最顶部到对象在当前窗口显示的范围内的顶边的距离．
+    // 即是在出现了纵向滚动条的情况下，滚动条拉动的距离
     let st = de.scrollTop || document.body.scrollTop;
     imgs.forEach(ele=>{
         if(ch+st>getTop(ele)){

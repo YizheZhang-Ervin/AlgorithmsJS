@@ -1,4 +1,6 @@
 // Fn原型对象是否是obj原型链上的某个对象
+// __proto__和constructor属性是对象所独有的
+// prototype属性是函数所独有的
 
 function myInstanceOf(obj,Fn){
     // 显式原型
