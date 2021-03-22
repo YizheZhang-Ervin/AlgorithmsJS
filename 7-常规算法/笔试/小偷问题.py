@@ -11,7 +11,7 @@ class Solution(object):
 
 # 213. House Robber II：房子首尾相连，不能偷相邻的房子，求最大的收益
 # 等价于求 max(rob(nums[:size-1]),rob(nums[1:size]))
-class Solution(object):
+class Solution2(object):
     def subrob(self,nums):
         Num_=len(nums)
         if Num_==1:
@@ -33,7 +33,7 @@ class Solution(object):
 
 # 337. House Robber III：二叉树，相邻边不能被偷
 # 记忆化搜索，state 记录该结点是否被选中 dic,dic1存储结点未选中／选中的最优答案
-class Solution(object):
+class Solution3(object):
     def rob(self, root):
         """
         :type root: TreeNode

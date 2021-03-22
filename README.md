@@ -4,15 +4,22 @@
 2. 剑指offer  
 3. Leetcode
 4. 数据结构相关  
+    - 树  
+    - 链表  
 5. 前端工具库  
+    - 函数功能   
+    - 数组  
+    - 对象  
+    - 字符串  
+    - DOM  
+    - 消息订阅发布  
+    - 框架  
 6. 前端相关       
     - HTMLCSS  
     - JS  
-    - Basic
-    - Data Structure  
-    - Quiz  
-    - Strategy  
 7. 常规算法  
+    - 基本  
+    - 笔试  
 8. 面试准备浓缩版  
   
 # 刷题路径
