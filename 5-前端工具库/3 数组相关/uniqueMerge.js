@@ -1,6 +1,6 @@
 // 给定arr1 arr2，合并去重，返回result
 
-function mergeAndDelete(arr1,arr2){
+function uniqueMerge(arr1,arr2){
     var rst = []
     for(let i of arr1){
         if(rst.indexOf(i)<0){
@@ -15,7 +15,8 @@ function mergeAndDelete(arr1,arr2){
     return rst;
 }
 
+// test
 var arr001 = [1,2,3,4,4];
 var arr002 = [5,6,7,8,8];
-var rst = mergeAndDelete(arr001,arr002);
+var rst = uniqueMerge(arr001,arr002);
 console.log(rst.join(','));
