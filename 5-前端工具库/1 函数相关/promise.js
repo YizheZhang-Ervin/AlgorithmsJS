@@ -1,101 +1,141 @@
-// 基于Promise手写一个promise.all 
+// 实现promise
+class IPromise {
+    // Promise三种状态
+    static PENDING = 'PENDING';
+    static FULFILED = 'FULFILED';
+    static REJECTED = 'REJECTED';
 
-const myPromiseAll = (arr) => {
-    // 判断是否为promise
-    let isPromise = (obj)=> {
-        return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-    }
-    // 需要用一个数组存放每一个promise的结果值
-    let result = [];
-    // 返回值是new Promise
-    return new Promise((resolve, reject) => {
-        // 遍历参数数组，判断是否是promise，是的话执行得到结果后压入结果数组；否则直接放入结果数组
-        for (let i = 0; i < arr.length; i++) {
-            if (isPromise(arr[i])) {
-                arr[i].then((data) => {
-                    result[i] = data;
-                    // 当每个都成功执行后，resolve（result）
-                    if (result.length === arr.length) {
-                        resolve(result)
-                    }
-                    // 当有一个失败，reject
-                }, reject)
-            } else {
-                result[i] = arr[i];
-            }
+    constructor(callback) {
+        // 容错处理
+        if (typeof callback !== 'function') {
+            throw new TypeError('Promise resolver undefined is not a function')
         }
-    })
-}
 
-// test: succeed
-let test1 = ()=>{
-    let p1 = Promise.resolve(3);
-    let p2 = 1337;
-    let p3 = new Promise((resolve, reject) => {
-      setTimeout(resolve, 100, 'foo');
-    }); 
-    myPromiseAll([p1, p2, p3]).then(values => { 
-      console.log(values); // [3, 1337, "foo"] 
-    }); 
-}
-// test1();
+        // 初始状态
+        this.promiseStatus = IPromise.PENDING;
 
-// test: fail
-let test2 = ()=>{
-    let p1 = new Promise((resolve, reject) => {
-        setTimeout(resolve, 1000, 'one');
-    });
-    let p2 = new Promise((resolve, reject) => {
-        setTimeout(resolve, 2000, 'two');
-    });
-    let p3 = new Promise((resolve, reject) => {
-        setTimeout(resolve, 3000, 'three');
-    });
-    let p4 = new Promise((resolve, reject) => {
-        setTimeout(resolve, 4000, 'four');
-    });
-    let p5 = new Promise((resolve, reject) => {
-        reject('reject');
-    });
-    
-    myPromiseAll([p1, p2, p3, p4, p5]).then(values => {
-        console.log(values);
-    }, reason => {
-        console.log(reason);// reject
-    });
-}
-test2();
+        // 定义resolve函数队列 reject函数队列
+        this.resolveQueues = [];
+        this.rejectQueues = [];
 
+        //定义初始值
+        this.value;
 
-// 将一个普通函数封装成promise风格，或是将ajax封装成promise风格
-class MyPromise {
-    constructor(fn) {
-        this.fn = fn;
-        this.fn(this.resolve.bind(this), this.reject.bind(this));
+        //调用callback函数
+        callback(this._resolve.bind(this), this._reject.bind(this))
     }
-
-    then(fn) {
-        this.fn = fn || new (Function);
-        this.then = this.fn;
-        return this;
+    _resolve(val) {
+        window.addEventListener('message', () => {
+            // 更改成功状态
+            if (this.promiseStatus !== IPromise.PENDING) return;
+            this.promiseStatus = IPromise.FULFILED;
+            this.value = val;
+            let handler;
+            while (handler = this.resolveQueues.shift()) {
+                handler(this.value)
+            }
+        })
+        window.postMessage('')
     }
-    catch(fn) {
-        this.fn = fn || new (Function);
-        this.catch = this.fn;
-        return this;
+    _reject(val) {
+        window.addEventListener('message', () => {
+            // 更改失败状态
+            if (this.promiseStatus !== IPromise.PENDING) return;
+            this.promiseStatus = IPromise.REJECTED;
+            this.value = val;
+            let handler;
+            while (handler = this.rejectQueues.shift()) {
+                handler(this.value)
+            }
+        })
+        window.postMessage('')
     }
+    then(resolveHandler, rejectHandler) {
+        return new IPromise((resolve, reject) => {
+            function newResolveHandler(val) {
+                // 首先判断 resolveHandler是否是一个函数
+                if (typeof resolveHandler === 'function') {
+                    /*
+                     获取resolveHandler 函数的返回值进行判断
+                     如果是promise则继续.then，不是则直接将结果返回
+                     */
+                    let result = resolveHandler(val);
+                    if (result instanceof IPromise) {
+                        result.then(resolve, reject)
+                    } else {
+                        resolve(result);
+                    }
 
-    resolve(res) {
-        this.then(res);
+                } else {
+                    resolve(val);
+                }
+
+            }
+
+            function newRejectHandler(val) {
+                if (typeof rejectHandler === 'function') {
+                    let result = rejectHandler(val);
+                    if (result instanceof IPromise) {
+                        result.then(resolve, reject)
+                    } else {
+                        reject(result);
+                    }
+
+                } else {
+                    reject(val);
+                }
+
+            }
+            this.resolveQueues.push(newResolveHandler);
+            this.rejectQueues.push(newRejectHandler);
+        })
     }
-
-    reject(err) {
-        this.catch(err);
+    catch(rejectHandler) {
+        return this.then(undefined, rejectHandler);
+    }
+    static all(iterator) {
+        let len = iterator.length;
+        let n = 0;
+        let vals = [];
+        return new IPromise((resolve, reject) => {
+            iterator.forEach((item) => {
+                item.then((val) => {
+                    ++n;
+                    vals.push(val);
+                    if (len === n) {
+                        resolve(vals);
+                    }
+                }).catch((e) => {
+                    reject(e);
+                })
+            })
+        })
+    }
+    static race(iterator) {
+        return new IPromise((resolve, reject) => {
+            iterator.forEach((item) => {
+                item.then((val) => {
+                    resolve(val);
+                }).catch((e) => {
+                    reject(e);
+                })
+            })
+        })
+    }
+    static resolve(val) {
+        return new IPromise((resolve) => {
+            resolve(val)
+        })
+    }
+    static reject(val) {
+        return new IPromise((resolve, reject) => {
+            reject(val)
+        })
     }
 }
 
 // test
-var p = new MyPromise(function (res, rej) {
+var p = new IPromise(function (res, rej) {
     var timeOut = Math.floor(Math.random() * 2);
     console.log(timeOut)
     setTimeout(function () {

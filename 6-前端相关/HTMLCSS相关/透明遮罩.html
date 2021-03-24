@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            #target {
+                width: 200px;
+                height: 300px;
+                margin: 40px;
+                background-color: tomato;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="target"></div>
+        <script>
+            // 给页面任一元素加一个透明遮罩(透明度可变，默认0.2)，使此区域点击无效，兼容各种浏览器
+            function addMask(elem, opacity) {
+                opacity = opacity || 0.2;
+                var rect = elem.getBoundingClientRect();
+                var style = getComputedStyle(elem, null);
+                var mask = document.createElement('div');
+                mask.style.position = 'absolute';
+                var marginLeft = parseFloat(style.marginLeft);
+                mask.style.left = (elem.offsetLeft - marginLeft) + 'px';
+                var marginTop = parseFloat(style.marginTop);
+                mask.style.top = (elem.offsetTop - marginTop) + 'px';
+                mask.style.zIndex = 9999;
+                mask.style.opacity = '' + opacity;
+                mask.style.backgroundColor = '#000';
+                mask.style.width = (parseFloat(style.marginLeft) +
+                    parseFloat(style.marginRight) + rect.width) + 'px';
+                mask.style.height = (parseFloat(style.marginTop) +
+                    parseFloat(style.marginBottom) + rect.height) + 'px';
+                elem.parentNode.appendChild(mask);
+            }
+            var target = document.getElementById('target');
+            addMask(target);
+            target.addEventListener('click', function () {
+                console.log('click');
+            }, false);
+        </script>
+    </body>
+
+</html>
