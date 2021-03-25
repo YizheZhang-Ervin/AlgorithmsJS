@@ -129,4 +129,3 @@ let ajaxPromise = (url,data) =>{
         }
     })
 }
-

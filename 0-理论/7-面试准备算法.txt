@@ -5,47 +5,29 @@
 5-1 函数
 手写bind/call/apply
 手写promise
-手写ajax封装promise
+手写ajax封装promise/普通ajax
 
 5-2 功能
 手写thunk
 手写Iterator
-手写JSONP、CORS
 防抖/节流
 图片懒加载
-递归对比node
-sleep
-once
-form序列化
-命名转换
 私有变量
-解析url/请求
-视口尺寸
-视口偏移量
-全排列
-拦截验证
 
 5-345 数组/字符串/对象
-判断各种类型
 深克隆
 对象合并
 原型继承
 数组去重
 数组扁平化(1->2，2->1)
-有序数组合并去重
-字符串去空格
 手写instanceof
 手写new
 
 5-6 事件
 手写eventEmitter
-事件兼容
-事件委托
 
 5-7 消息发布订阅
 pubsub
 
 5-8 框架
-数据双向绑定
-模板字符串
 单例模式
