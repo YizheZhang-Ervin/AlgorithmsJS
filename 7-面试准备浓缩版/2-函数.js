@@ -59,7 +59,6 @@ class IPromise{
     }
     catch(rejectCallback){
         this.then(undefined,rejectCallback);
-        return this;
     }
 }
 
@@ -67,15 +66,15 @@ class IPromise{
 let processFn = (resolveFn,rejectFn) =>{
         resolveFn("this is msg")
     },
-    resolveFn = (resolveMsg) =>{
+    resolveThenFn = (resolveMsg) =>{
         console.log("then: ",resolveMsg);
     },
-    rejectFn = (rejectMsg)=>{
+    rejectThenFn = (rejectMsg)=>{
         console.log("then: ",rejectMsg);
     }
 let p = new IPromise(processFn)
-        .then(resolveFn,rejectFn)
-        .catch(rejectFn)
+        .then(resolveThenFn,rejectThenFn)
+        .catch(rejectThenFn)
 
 // 3. 实现promise.all
 let promiseAll = (promiseArr) =>{

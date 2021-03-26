@@ -56,13 +56,13 @@ let exe = (str,callback)=>{
 };
 let gen = function*(){
     let f1 = yield thunk(exe)("args 1");
-    console.log(typeof f1);
+    console.log(f1);
     let f2 = yield thunk(exe)("args 2");
     console.log(f2);
 }
 
 // test
-run(gen);
+// run(gen);
 
 // 手写Iterator
 let addIterator = (obj)=>{

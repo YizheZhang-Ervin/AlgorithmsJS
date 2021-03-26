@@ -1,21 +1,24 @@
 class Singleton{
-    constructor(){
-        this.instance = null;
-    }
-
-    doSth(){
-        console.log("doSth !");
-        return this;
+    constructor(val){
+        if(!Singleton.instance){
+            Singleton.instance = this;
+            this.val = val;
+        }
+        return Singleton.instance;
     }
 
     static getInstance(){
-        if(!this.instance){
-            this.instance = new Singleton();
-        }
-        return this.instance;
+        return Singleton.instance;
+    }
+
+    getVal(){
+        return this.val;
     }
 }
 
 // test
-let s = Singleton.getInstance();
-s.doSth().doSth();
+let s = new Singleton("123");
+let s2 = new Singleton("456");
+let s3 = Singleton.getInstance();
+console.log(Singleton.instance,s,s2,s3);
+console.log(s.getVal(),s2.val)

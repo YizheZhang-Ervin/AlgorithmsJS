@@ -3,7 +3,7 @@
 let bubbleSort = (arr)=>{
     // 每次把最大的放到最后
     for(let i=0;i<arr.length;i++){
-        // 两两对比，大的置后
+        // 两两对比，大的置后(当前和后一个比，所以len-i-1)
         for(let j=0;j<arr.length-i-1;j++){
             if(arr[j]>arr[j+1]){
                 [arr[j],arr[j+1]] = [arr[j+1],arr[j]];
@@ -24,6 +24,7 @@ let selectionSort = (arr) => {
                 maxIdx = j;
             }
         }
+        // 最大值和当前最后一个值交换
         [arr[arr.length-i-1],arr[maxIdx]] = [arr[maxIdx],arr[arr.length-i-1]];
     }
     return arr;
@@ -53,6 +54,7 @@ let shellSort = (arr) => {
     //  按间隔分为多个列表分别插入排序，再不断缩小间隔
     for(let i=gap;i>0;i=Math.floor(i/2)){
         // 插入排序
+        // 遍历各个间隔
         for(let j=i;j<arr.length;j++){
             let currentValue = arr[j];
             let seqMaxIdx = j;

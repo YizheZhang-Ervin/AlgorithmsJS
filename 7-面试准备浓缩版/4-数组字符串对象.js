@@ -33,17 +33,17 @@ let deepclone = (obj)=>{
     }
     return dClone(obj,cache);
 }
-let obj4 = {
-    a:1,
-    b:[2,3],
-    c:/^\d+$/,
-    d:{x:1,y:[1,2],z:{zz:1}},
-    e: Date.now(),
-    f:"abc",
-}
-obj4.g = obj4.d;
-obj4.d.r = obj4.g;
-console.log(deepclone(obj4));
+// let obj4 = {
+//     a:1,
+//     b:[2,3],
+//     c:/^\d+$/,
+//     d:{x:1,y:[1,2],z:{zz:1}},
+//     e: Date.now(),
+//     f:"abc",
+// }
+// obj4.g = obj4.d;
+// obj4.d.r = obj4.g;
+// console.log(deepclone(obj4));
 
 // 对象合并
 let merge = (...objs)=>{
@@ -60,9 +60,9 @@ let merge = (...objs)=>{
     })
     return rst;
 }
-let obj1 = {a:[{x:2},{y:4}],b:1,c:200};
-let obj2 = {a:{z:3},b:[2,3],c:"foo"};
-console.log(merge(obj1,obj2));
+// let obj1 = {a:[{x:2},{y:4}],b:1,c:200};
+// let obj2 = {a:{z:3},b:[2,3],c:"foo"};
+// console.log(merge(obj1,obj2));
 
 // 数组去重
 let unique = (arr)=>{
@@ -75,7 +75,7 @@ let unique = (arr)=>{
     });
     return rst;
 }
-console.log(unique([1,2,2,3,3,3]));
+// console.log(unique([1,2,2,3,3,3]));
 
 // 数组扁平化
 let flatten = (arr)=>{
@@ -90,7 +90,7 @@ let flatten = (arr)=>{
     });
     return rst;
 }
-console.log(flatten([1,[2,[3,4],5]]));
+// console.log(flatten([1,[2,[3,4],5]]));
 
 // instanceof实现
 let myInstanceOf = (obj,conFn)=>{
@@ -104,8 +104,8 @@ let myInstanceOf = (obj,conFn)=>{
     }
     return false;
 }
-let p = new Person();
-console.log(myInstanceOf(p,Person));
+// let p = new Person();
+// console.log(myInstanceOf(p,Person));
 
 // new实现
 let myNew = (conFn,...args)=>{
@@ -117,12 +117,12 @@ let myNew = (conFn,...args)=>{
     // 调用的构造函数有返回值则返回返回值，否则返回obj
     return rst instanceof Object?rst:obj;
 }
-function Person(name, age) {
-    this.name = name
-    this.age = age
-    // return {name,age};
-}
-console.log(myNew(Person, 'abc', 99));
+// function Person(name, age) {
+//     this.name = name
+//     this.age = age
+//     // return {name,age};
+// }
+// console.log(myNew(Person, 'abc', 99));
 
 // 原型继承
 // 父类
