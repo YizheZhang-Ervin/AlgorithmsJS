@@ -27,7 +27,7 @@ function uniqueSubstr(str1){
         // 重复则窗口左+1
         }else{
             left++;
-            slidingWindow.pop();
+            slidingWindow.shift();
         }
     }
     return rst;

@@ -24,7 +24,7 @@ function GetLeastNumbers(input, k){
 
 console.log(GetLeastNumbers([4,5,1,6,2,7,3,8],4));
 
-// 插入排序版
+// 选择排序版
 function GetLeastNumbers_Solution(input, k)
 {
     let len = input.length;

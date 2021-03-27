@@ -10,6 +10,7 @@ let treeForm = (n) =>{
         // 当前数目节点的初始值
         dp[i]=0;
         // 公式累加 f(n)=​f(x)*f(n−x−1)
+        // 总共节点数为i时的左右形态的个数
         for (let j=0;j<i;j++){
             dp[i] = dp[i]+ dp[j] * dp[i - j - 1];
         }

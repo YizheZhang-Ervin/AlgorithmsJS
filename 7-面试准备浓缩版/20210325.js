@@ -136,7 +136,7 @@ let bind = (obj,fn) =>{
 }
 // bind(this,console.log)("abc");
 
-// 手写promise X
+// 手写promise
 class IPromise{
     constructor(process){
         this.status = "pending";
@@ -187,7 +187,7 @@ let ajaxPromise = (url,data)=>{
     })
 }
 
-// 手写thunk X
+// 手写thunk
 let thunk = (fn)=>{
     return (args)=>{
         return (callback)=>{
@@ -246,7 +246,6 @@ let addIterator = (obj)=>{
 //     console.log(k,v);
 // }
 
-
 // 防抖
 let debounce = (fn,time)=>{
     let timerId = null;
@@ -275,7 +274,7 @@ let throttle = (fn,time)=>{
     return control;
 }
 
-// 图片懒加载 X
+// 图片懒加载
 let lazyLoad = (imgs)=>{
     let judgeShow = (ele)=>{
         let bound = ele.getBoundingClientRect().top;
@@ -306,36 +305,28 @@ let PrivateVar = (()=>{
 // let p = new PrivateVar(123);
 // console.log(p.getVal());
 
-
-// 深克隆 X
-let deepClone = (obj,cache)=>{
-    if(typeof obj===null){
-        return null;
+// 深克隆
+let deepClone = (obj,map)=>{
+    if(obj===null) return null;
+    if(typeof obj!=="object") return obj;
+    if(obj instanceof RegExp) return new RegExp(obj);
+    if(obj instanceof Date) return new Date(obj);
+    if(map.has(obj)){
+        return map.get(obj);
     }
-    if(typeof obj !== "object"){
-        return obj;
-    }
-    if(obj instanceof RegExp){
-        return new RegExp(obj);
-    }
-    if(obj instanceof Date){
-        return new Date(obj);
-    }
-    
-    if(cache.has(obj)){
-        return cache.get(obj);
-    }else{
-        let newObj = new obj.constructor;
-        cache.set(obj,newObj);
-        Object.keys(obj).forEach(k=>{
-            newObj[k] = deepClone(obj[k],cache);
-        })
-        return newObj;
-    }
+    let newObj = new obj.constructor;
+    map.set(obj,newObj);
+    Object.keys(obj).forEach(k=>{
+        newObj[k] = deepClone(obj[k],map);
+        
+    })
+    return newObj;
 }
-// let o = {a:1,b:[1,2,3]};
-// let m = new Map();
-// console.log(deepClone(o,m));
+// let obj={a:[1],b:[2,3]};
+// obj.b.push(obj.a);
+// obj.a.push(obj.b);
+// let map = new Map();
+// console.log(deepClone(obj,map));
 
 // 对象合并
 let mergeObjs = (...objs)=>{
@@ -355,7 +346,7 @@ let o1 = {a:1,b:2};
 let o2 = {a:2,c:3};
 // console.log(mergeObjs(o1,o2));
 
-// 原型继承 X
+// 原型继承
 function superType(){}
 function subType(args){
     superType.call(this,args);
@@ -445,3 +436,58 @@ class Singleton{
 // let s2 = new Singleton("456");
 // let s3 = Singleton.getInstance();
 // console.log(s.getVal(),s2.val,s3.getVal());
+
+// reduce模拟map
+Array.prototype.selfMap = function(fn,callbackThis){
+    let rst = [];
+    this.reduce((total,curVal,curIdx,arr)=>{
+        rst.push(fn.call(callbackThis,curVal,curIdx,arr));
+    },null);
+    return rst;
+}
+// console.log([1,2,3].selfMap(n=>n*n));
+
+// repeat  
+let repeat = (fn,times,wait)=>{
+    return (args)=>{
+        let counts = 0;
+        let timer = setInterval(()=>{
+            if(counts<times){
+                fn.call(this,args);
+                counts++;
+            }else{
+                clearInterval(timer);
+            }
+        },wait);
+    }
+}
+// repeat(console.log,2,300)("abc");
+
+// promise cancel
+let promiseCancel = (promise,obj)=>{
+    Promise.race([promise,new Promise((_,reject)=>{
+        obj.cancel = ()=>{
+            reject(new Error("Cancel"));
+        }
+    })]).catch(e=>console.log(e));
+}
+// let obj = {};
+// let p = new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         resolve(123);
+//     },300)
+// })
+// promiseCancel(p,obj);
+// obj.cancel();
+
+// 判断空对象
+let judgeNullObj = (obj)=>{
+    return JSON.stringify(obj)=="{}";
+    // return Object.keys(obj).length==0;
+    // return Object.getOwnPropertyNames(obj).length==0;
+    // for(let i in obj){
+    //     return false;
+    // }
+    // return true;
+}
+// console.log(judgeNullObj({}));
