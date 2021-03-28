@@ -34,7 +34,7 @@ function strToNum(str){
     }
 }
 
-console.log(strToNum("+122"));
+// console.log(strToNum("+122"));
 
 function StrToInt(str)
 {

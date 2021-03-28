@@ -24,7 +24,7 @@ function convert(pRoot){
     // 右子树转成双向链表
     let right=convert(pRoot.right)
     let p2=right;
-    // 头节点应该在左子树最右节点的左边
+    // 头节点应该在右子树的左边
     if(p2){
         p2.left=pRoot;
         pRoot.right=p2;

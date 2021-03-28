@@ -6,6 +6,9 @@ function replaceSpace(str){
     // return str.replace(/\s/g,"%20");
     // split+join
     return str.split(" ").join("%20");
+    // encodeURIComponent()方法则会使用对应的编码替换所有非字母数字字符
+    // encodeURI只替换空格为%20
+    // return encodeURI(str);
 }
 
 console.log(replaceSpace("We Are Happy"));

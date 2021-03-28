@@ -5,7 +5,7 @@ function numberOf1(n){
     // 计数countOf1
     let countOf1 = 0;
     while(n!=0){
-        console.log(n.toString(2),(n-1).toString(2))
+        // console.log(n.toString(2),(n-1).toString(2))
         // 每与一次，去掉从低位到高位的连续零,保留1的位
         n = n & (n-1);
         // 计数+1
