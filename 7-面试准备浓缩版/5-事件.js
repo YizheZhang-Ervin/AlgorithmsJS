@@ -47,8 +47,8 @@ class EventEmitter{
     // 只触发一次事件就注销
     once(eventName,eventFn){
         // 设置一次性函数: 函数+关闭
-        let oneTime=()=>{
-            eventFn.apply(this,arguments);
+        let oneTime=(...args)=>{
+            eventFn.apply(this,args);
             this.off(eventName,eventFn);
         }
         // 一次性函数加入事件列表

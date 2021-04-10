@@ -48,10 +48,10 @@ let selectSort = (arr)=>{
 // 插入
 let insertSort = (arr)=>{
     for(let i=1;i<arr.length;i++){
-        let p = i-1,
-            curVal = arr[i];
+        let p = i-1,//前一个值指针
+            curVal = arr[i];//当前值
         while(curVal<arr[p] && p>-1){
-            arr[p+1] = arr[p];
+            arr[p+1] = arr[p];//后移
             p--;
         }
         arr[p+1] = curVal;
@@ -122,6 +122,101 @@ let quickSort = (arr)=>{
 }
 // console.log(quickSort([5,4,3,2,1]));
 
+// 数组去重
+let unique = (arr)=>{
+    let rst = [];
+    arr.forEach(ele=>{
+        if(rst.indexOf(ele)===-1){
+            rst.push(ele);
+        }
+    })
+    return rst;
+}
+// console.log(unique([1,2,2,2,3]));
+
+// 数组扁平化
+let flatten =(arr)=>{
+    let rst = [];
+    arr.forEach(ele=>{
+        if(Array.isArray(ele)){
+            rst = rst.concat(flatten(ele));
+            // rst.push(...flatten(ele));
+        }else{
+            rst.push(ele);
+        }
+    });
+    return rst;
+}
+// console.log(flatten([[1,2],[3,4,5]]));
+
+// 对象合并
+let mergeObjs = (...objs)=>{
+    let rst = {};
+    objs.forEach(obj=>{
+        Object.keys(obj).forEach(k=>{
+            if(!rst.hasOwnProperty(k)){// 没有这个属性
+                rst[k] = [obj[k]];
+            }else{ // 已有这个属性
+                rst[k].push(obj[k]);
+            }
+        })
+    })
+    return rst;
+}
+let o1 = {a:1,b:2};
+let o2 = {a:2,c:3};
+// console.log(mergeObjs(o1,o2));
+
+// 深克隆
+let deepClone = (obj,map)=>{
+    if(obj===null) return null;
+    if(typeof obj!=="object") return obj;
+    if(obj instanceof RegExp) return new RegExp(obj);
+    if(obj instanceof Date) return new Date(obj);
+    if(map.has(obj)){
+        return map.get(obj);
+    }
+    let newObj = new obj.constructor;
+    map.set(obj,newObj);
+    Object.keys(obj).forEach(k=>{
+        newObj[k] = deepClone(obj[k],map);
+    })
+    return newObj;
+}
+// let obj={a:[1],b:[2,3]};
+// obj.b.push(obj.a);
+// obj.a.push(obj.b);
+// let map = new Map();
+// console.log(deepClone(obj,map));
+
+// 防抖
+let debounce = (fn,time)=>{
+    let timerId = null;
+    let control = (...args)=>{
+        if(!timerId){
+            clearTimeout(timerId);
+        }
+        timerId = setTimeout(()=>{
+            fn.call(this,...args);
+            timerId = null;
+        },time)
+    }
+    return control;
+}
+
+// 节流
+let throttle = (fn,time)=>{
+    let start = 0;
+    let control = (...args)=>{
+        let now = Date.now();
+        if(now-start>time){
+            fn.call(this,...args);
+            start = now;
+        }
+    }
+    return control;
+}
+
 // 手写bind/call/apply
 let bind = (obj,fn) =>{
     return (...args)=>{
@@ -135,6 +230,37 @@ let bind = (obj,fn) =>{
     }
 }
 // bind(this,console.log)("abc");
+
+// 手写new
+let newInstance = (constructFn,...args)=>{
+    let obj = {};
+    let rst = constructFn.apply(obj,args);
+    Object.setPrototypeOf(obj,constructFn.prototype);
+    return rst instanceof Object?rst:obj;
+}
+// function Person(name){
+//     this.name = name;
+// }
+// let p = newInstance(Person,"abc");
+// console.log(p.name);
+
+// 手写instanceof
+let IInstanceOf = (obj,Fn) => {
+    let proto = obj.__proto__;
+    let prototype = Fn.prototype;
+    while(proto){
+        if(proto==prototype){
+            return true;
+        }
+        proto = proto.__proto__; // 一步步向上找obj的原型
+    }
+    return false;
+}
+// function Person(name){
+//     this.name = name;
+// }
+// let p = new Person("abc");
+// console.log(IInstanceOf(p,Person));
 
 // 手写promise
 class IPromise{
@@ -171,6 +297,27 @@ class IPromise{
 // let p = new IPromise((resolve,reject)=>{resolve("this is data")})
 //         .then((msg)=>{console.log("resolve",msg)},(msg)=>{console.log("reject",msg)})
 
+// 单例模式
+class Singleton{
+    constructor(val){
+        if(!Singleton.instance){
+            Singleton.instance = this;
+            this.val = val;
+        }
+        return Singleton.instance;
+    }
+    static getInstance(){
+        return Singleton.instance;
+    }
+    getVal(){
+        return this.val;
+    }
+}
+// let s = new Singleton("123");
+// let s2 = new Singleton("456");
+// let s3 = Singleton.getInstance();
+// console.log(s.getVal(),s2.val,s3.getVal());
+
 // 手写ajax封装promise
 let ajaxPromise = (url,data)=>{
     return new Promise((resolve,reject)=>{
@@ -186,6 +333,57 @@ let ajaxPromise = (url,data)=>{
         }
     })
 }
+
+// 图片懒加载
+let lazyLoad = (imgs)=>{
+    let judgeShow = (ele)=>{
+        let bound = ele.getBoundingClientRect().top;
+        return bound<window.innerHeight;
+    }
+    Array.from(imgs).forEach(img=>{
+        if(judgeShow(img)){
+            if(!img.src){
+                img.src = img.dataset.src;
+            }
+        }
+    })
+}
+
+// PromiseAll
+let myPromiseAll = (arr)=>{
+    let isPromise = (obj)=>{
+        // 对象非空，对象是对象或者函数，对象then属性是函数
+        return !!obj && (typeof obj=="object" || typeof obj=="function") && typeof obj.then=="function";
+    }
+    // let rst = Array.from({length:arr.length-1});
+    // let rst = new Array(arr.length-1);
+    let rst = [];
+    return new Promise((resolve,reject)=>{
+        for(let i=0;i<arr.length;i++){
+            if(isPromise(arr[i])){
+                arr[i].then((data)=>{
+                    rst[i] = data;
+                    if(rst.length==arr.length) resolve(rst);
+                },reject)
+            }else{
+                rst[i] = arr[i];
+            }
+        }
+    })
+
+}
+// test: succeed
+let test1 = () => {
+    let p1 = Promise.resolve(3);
+    let p2 = 1337;
+    let p3 = new Promise((resolve, reject) => {
+        setTimeout(resolve, 100, 'foo');
+    });
+    myPromiseAll([p1, p2, p3]).then(values => {
+        console.log(values); // [3, 1337, "foo"] 
+    });
+}
+// test1();
 
 // 手写thunk
 let thunk = (fn)=>{
@@ -246,49 +444,6 @@ let addIterator = (obj)=>{
 //     console.log(k,v);
 // }
 
-// 防抖
-let debounce = (fn,time)=>{
-    let timerId = null;
-    let control = (...args)=>{
-        if(!timerId){
-            clearTimeout(timerId);
-        }
-        timerId = setTimeout(()=>{
-            fn.call(this,...args);
-            timerId = null;
-        },time)
-    }
-    return control;
-}
-
-// 节流
-let throttle = (fn,time)=>{
-    let start = 0;
-    let control = (...args)=>{
-        let now = Date.now();
-        if(now-start>time){
-            fn.call(this,...args);
-            start = now;
-        }
-    }
-    return control;
-}
-
-// 图片懒加载
-let lazyLoad = (imgs)=>{
-    let judgeShow = (ele)=>{
-        let bound = ele.getBoundingClientRect().top;
-        return bound<window.innerHeight;
-    }
-    Array.from(imgs).forEach(img=>{
-        if(judgeShow(img)){
-            if(!img.src){
-                img.src = img.dataset.src;
-            }
-        }
-    })
-}
-
 // 私有变量
 let PrivateVar = (()=>{
     let key = Symbol("key");
@@ -305,46 +460,6 @@ let PrivateVar = (()=>{
 // let p = new PrivateVar(123);
 // console.log(p.getVal());
 
-// 深克隆
-let deepClone = (obj,map)=>{
-    if(obj===null) return null;
-    if(typeof obj!=="object") return obj;
-    if(obj instanceof RegExp) return new RegExp(obj);
-    if(obj instanceof Date) return new Date(obj);
-    if(map.has(obj)){
-        return map.get(obj);
-    }
-    let newObj = new obj.constructor;
-    map.set(obj,newObj);
-    Object.keys(obj).forEach(k=>{
-        newObj[k] = deepClone(obj[k],map);
-    })
-    return newObj;
-}
-// let obj={a:[1],b:[2,3]};
-// obj.b.push(obj.a);
-// obj.a.push(obj.b);
-// let map = new Map();
-// console.log(deepClone(obj,map));
-
-// 对象合并
-let mergeObjs = (...objs)=>{
-    let rst = {};
-    objs.forEach(obj=>{
-        Object.keys(obj).forEach(k=>{
-            if(!rst.hasOwnProperty(k)){
-                rst[k] = [obj[k]];
-            }else{
-                rst[k].push(obj[k]);
-            }
-        })
-    })
-    return rst;
-}
-let o1 = {a:1,b:2};
-let o2 = {a:2,c:3};
-// console.log(mergeObjs(o1,o2));
-
 // 原型继承
 function superType(){}
 function subType(args){
@@ -358,90 +473,12 @@ function inherit(subType,superType){
 // let s = new subType();
 // console.log(s);
 
-// 数组去重
-let unique = (arr)=>{
-    let rst = [];
-    arr.forEach(ele=>{
-        if(rst.indexOf(ele)===-1){
-            rst.push(ele);
-        }
-    })
-    return rst;
-}
-// console.log(unique([1,2,2,2,3]));
-
-// 数组扁平化
-let flatten =(arr)=>{
-    let rst = [];
-    arr.forEach(ele=>{
-        if(Array.isArray(ele)){
-            rst = rst.concat(flatten(ele));
-        }else{
-            rst.push(ele);
-        }
-    });
-    return rst;
-}
-// console.log(flatten([[1,2],[3,4,5]]));
-
-// 手写instanceof
-let IInstanceOf = (obj,Fn) => {
-    let proto = obj.__proto__;
-    let prototype = Fn.prototype;
-    while(proto){
-        if(proto==prototype){
-            return true;
-        }
-        proto = proto.__proto__;
-    }
-    return false;
-}
-// function Person(name){
-//     this.name = name;
-// }
-// let p = new Person("abc");
-// console.log(IInstanceOf(p,Person));
-
-// 手写new
-let newInstance = (construct,...args)=>{
-    let obj = {};
-    let rst = construct.apply(obj,args);
-    Object.setPrototypeOf(obj,construct.prototype);
-    return rst instanceof Object?rst:obj;
-}
-// function Person(name){
-//     this.name = name;
-// }
-// let p = newInstance(Person,"abc");
-// console.log(p.name);
-
-// 单例模式
-class Singleton{
-    constructor(val){
-        if(!Singleton.instance){
-            Singleton.instance = this;
-            this.val = val;
-        }
-        return Singleton.instance;
-    }
-    static getInstance(){
-        return Singleton.instance;
-    }
-    getVal(){
-        return this.val;
-    }
-}
-// let s = new Singleton("123");
-// let s2 = new Singleton("456");
-// let s3 = Singleton.getInstance();
-// console.log(s.getVal(),s2.val,s3.getVal());
-
 // reduce模拟map
 Array.prototype.selfMap = function(fn,callbackThis){
     let rst = [];
     this.reduce((total,curVal,curIdx,arr)=>{
         rst.push(fn.call(callbackThis,curVal,curIdx,arr));
-    },null);
+    },null);    // 初始值不为null啧第一个值会作为初始值
     return rst;
 }
 // console.log([1,2,3].selfMap(n=>n*n));
@@ -490,3 +527,32 @@ let judgeNullObj = (obj)=>{
     // return true;
 }
 // console.log(judgeNullObj({}));
+
+// 判断是否为自身属性
+let judgeOwnProperty=(obj)=>{
+    let rst = [],
+        rst2 = [];
+    // method 1
+    for(let i in obj){
+        console.log("all:",i);
+        if(obj.hasOwnProperty(i)){
+            rst.push(i);
+        }
+    }
+    // method 2
+    Object.keys(obj).forEach((k)=>{
+        rst2.push(k);
+    })
+    return {rst,rst2};
+}
+// test
+// function A(){
+//     this.a = 5;
+// }
+// function B(){
+//     this.b = 10;
+// }
+// B.prototype = new A();
+// let b = new B();
+// let rst = judgeOwnProperty(b);
+// console.log(rst);

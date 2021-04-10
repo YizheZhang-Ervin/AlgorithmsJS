@@ -38,3 +38,23 @@ function maxInWindows(num, size){
 }
 
 console.log(maxInWindows([2,3,4,2,6,2,5,1],3));
+
+function maxInWindows2(arr, size){
+    let left = 0,
+        right = size-1,
+        tempMax = Math.max(...arr.slice(left,right+1)),
+        result = [tempMax];
+    while(right<arr.length-1){
+        // 因为要先+1，所以right不能超过总长-1
+        left++;
+        right++;
+        if(arr[left-1]!=tempMax){
+            tempMax = tempMax>arr[right]?tempMax:arr[right];
+        }else{
+            tempMax = Math.max(...arr.slice(left,right+1));
+        }
+        result.push(tempMax);
+    }
+    return result;
+}
+console.log(maxInWindows2([2,3,4,2,6,2,5,1],3));
