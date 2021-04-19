@@ -519,8 +519,11 @@ let promiseCancel = (promise,obj)=>{
 // 判断空对象
 let judgeNullObj = (obj)=>{
     return JSON.stringify(obj)=="{}";
+
     // return Object.keys(obj).length==0;
+
     // return Object.getOwnPropertyNames(obj).length==0;
+
     // for(let i in obj){
     //     return false;
     // }

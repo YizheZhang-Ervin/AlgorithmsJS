@@ -1,0 +1,1 @@
+// DOM树的遍历可谓老生常谈了,自定义实现getElementById或者getElementByClassName等方法都需要遍历DOM
